@@ -19,7 +19,7 @@ book b,,6,,
 `
 
 	sc := bufio.NewScanner(bytes.NewReader([]byte(content)))
-	sc.Split(new(csvtools.GroupedCSVSRecordsSplitter).SplitFunc)
+	sc.Split(new(csvtools.ScanGroupedCSVRecords).SplitFunc)
 	for sc.Scan() {
 		fmt.Println("--------------------")
 		fmt.Println(string(sc.Bytes()))

@@ -5,12 +5,17 @@ import (
 	"bytes"
 )
 
-type GroupedCSVSRecordsSplitter struct {
+// ScanGroupedCSVRecords is a scanner that you can use as bufio.Scanner's splitter.
+// e.g.,
+// sc:=bufio.NewScanner()
+// var split ScanGroupedCSVRecords
+// sc.Split(split.SplitFunc)
+type ScanGroupedCSVRecords struct {
 	head []byte
 	prev []byte
 }
 
-func (s *GroupedCSVSRecordsSplitter) SplitFunc(data []byte, efo bool) (advance int, token []byte, err error) {
+func (s *ScanGroupedCSVRecords) SplitFunc(data []byte, efo bool) (advance int, token []byte, err error) {
 	if efo && len(data) == 0 {
 		return 0, nil, nil
 	}
@@ -58,4 +63,4 @@ func (s *GroupedCSVSRecordsSplitter) SplitFunc(data []byte, efo bool) (advance i
 	return 0, nil, nil
 }
 
-var _ bufio.SplitFunc = (&GroupedCSVSRecordsSplitter{}).SplitFunc
+var _ bufio.SplitFunc = (&ScanGroupedCSVRecords{}).SplitFunc
