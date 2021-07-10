@@ -36,12 +36,14 @@ func (s *ScanGroupedCSVRecords) SplitFunc(data []byte, efo bool) (advance int, t
 	var i = 0
 	for {
 		newI := bytes.IndexByte(data[i:], '\n')
-
+		if newI<0{
+			break // break to go out of for and check efo or get more.
+		}
 		// We have a full newline-terminated line.
 		// so we should check our csc record's key.
 		j := bytes.IndexByte(data[i+newI:], ',')
 
-		if newI < 0 || j < 0 {
+		if j < 0 {
 			break // break to go out of for and check efo or get more.
 		}
 		i = i + newI
