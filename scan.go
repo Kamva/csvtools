@@ -22,7 +22,8 @@ func (s *ScanGroupedCSVRecords) SplitFunc(data []byte, efo bool) (advance int, t
 
 	if s.head == nil { // catch head for all tokens and drop it.
 		if i := bytes.IndexByte(data, '\n'); i >= 0 {
-			s.head = dropCR(data[0 : i+1]) // for head we keep new line too.
+			s.head=make([]byte,i+1)
+			copy(s.head,dropCR(data[0 : i+1])) // for head we keep new line too.
 			// We have a full newline-terminated line.
 			return i + 1, nil, nil
 		}
